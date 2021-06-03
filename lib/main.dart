@@ -28,6 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
   var openedPageState = OpenedPage.None;
   var isPortrait = false;
 
@@ -41,24 +42,28 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
-    return Navigator(
-      pages: [
-        MaterialPage(
-          child: StartPage(
-            selectedPage: openedPageState,
-            onPageSelected: (page) => _onPageOpened(page),
-            isPortrait: isPortrait,
+    return WillPopScope(
+      onWillPop: () async => !await _navigatorKey.currentState.maybePop(),
+      child: Navigator(
+        key: _navigatorKey,
+        pages: [
+          MaterialPage(
+            child: StartPage(
+              selectedPage: openedPageState,
+              onPageSelected: (page) => _onPageOpened(page),
+              isPortrait: isPortrait,
+            ),
           ),
-        ),
-        if (isPortrait && openedPageState == OpenedPage.Mvvm)
-          MaterialPage(child: MvvmPage()),
-        if (isPortrait && openedPageState == OpenedPage.Bloc)
-          MaterialPage(child: BlocPage()),
-      ],
-      onPopPage: (route, result) {
-        openedPageState = OpenedPage.None;
-        return route.didPop(result);
-      },
+          if (isPortrait && openedPageState == OpenedPage.Mvvm)
+            MaterialPage(child: MvvmPage()),
+          if (isPortrait && openedPageState == OpenedPage.Bloc)
+            MaterialPage(child: BlocPage()),
+        ],
+        onPopPage: (route, result) {
+          openedPageState = OpenedPage.None;
+          return route.didPop(result);
+        },
+      ),
     );
   }
 }

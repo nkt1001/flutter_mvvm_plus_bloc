@@ -2,8 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:mvvm_plus_bloc_flutter_app/data/commons/repository_provider.dart';
 import 'package:mvvm_plus_bloc_flutter_app/domain/models/mvvm_item.dart';
 import 'package:mvvm_plus_bloc_flutter_app/domain/repository/mvvm_repository.dart';
+import 'package:mvvm_plus_bloc_flutter_app/presentation/common/view_modes/base_view_model.dart';
 
-class MvvmViewModel with ChangeNotifier {
+class MvvmViewModel extends BaseViewModel {
   final MvvmRepository _repository = provideMvvmRepository();
   List<MvvmItem> _mvvmItems = [];
   var _showLoading = false;
