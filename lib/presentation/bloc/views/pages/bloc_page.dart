@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mvvm_plus_bloc_flutter_app/presentation/bloc/business/bloc_items_bloc.dart';
+import 'package:mvvm_plus_bloc_flutter_app/domain/bloc/bloc_items_bloc.dart';
+import 'package:mvvm_plus_bloc_flutter_app/domain/bloc/models/bloc_state.dart';
+import 'package:mvvm_plus_bloc_flutter_app/presentation/bloc/views/bloc_items_bloc_impl.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/bloc/views/widgets/bloc_list.dart';
+import 'package:provider/provider.dart';
 
 class BlocPage extends StatelessWidget {
   @override
@@ -38,8 +41,11 @@ class BlocPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          BlocProvider(
-            create: (_) => BlocItemsBloc()..add(BlocItemsEvent.init),
+          Provider<BlocItemsBloc>(
+            create: (_) => BlocItemsBlocImpl(BlocState.idle([])),
+            dispose: (_, bloc) {
+              bloc.dispose();
+            },
             child: BlocList(),
           ),
         ],

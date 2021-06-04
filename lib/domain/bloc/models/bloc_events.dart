@@ -1,0 +1,4 @@
+enum BlocItemsEvent {
+  init,
+  dispose,
+}

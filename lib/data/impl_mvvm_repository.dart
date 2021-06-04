@@ -1,4 +1,4 @@
-import 'package:mvvm_plus_bloc_flutter_app/domain/models/mvvm_item.dart';
+import 'package:mvvm_plus_bloc_flutter_app/domain/entities/mvvm_item.dart';
 import 'package:mvvm_plus_bloc_flutter_app/domain/repository/mvvm_repository.dart';
 
 class MvvmRepositoryImpl extends MvvmRepository {

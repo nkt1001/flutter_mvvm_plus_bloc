@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/view_models/mvvm_view_model.dart';
+import 'package:mvvm_plus_bloc_flutter_app/domain/mvvm/view_models/mvvm_view_model.dart';
+import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/view_models/mvvm_view_model_impl.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/views/widgets/mvvm_list.dart';
 import 'package:provider/provider.dart';
 
@@ -19,10 +20,7 @@ class MvvmPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          ChangeNotifierProvider(
-            create: (ctx) => MvvmViewModel()..loadMvvmItems(),
-            child: MvvmList(),
-          )
+          MvvmList(),
         ],
       ),
     );
@@ -33,17 +31,19 @@ class MvvmPage extends StatelessWidget {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
-    if (isLandscape) {
-      return _buildBody(context);
-    } else {
-      return Scaffold(
-        appBar: AppBar(
+    return Provider<MvvmViewModel>(
+      create: (ctx) => MvvmViewModelImpl(),
+      dispose: (_, vm) => vm.dispose(),
+      child: isLandscape
+          ? _buildBody(context)
+          : Scaffold(
+              appBar: AppBar(
                 title: Text(
                   'Mvvm',
                 ),
               ),
-        body: _buildBody(context),
-      );
-    }
+              body: _buildBody(context),
+            ),
+    );
   }
 }
