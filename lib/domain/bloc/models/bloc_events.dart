@@ -1,4 +1,4 @@
-enum BlocItemsEvent {
+enum BaseBlocEvent {
   init,
   dispose,
 }

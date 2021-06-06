@@ -28,22 +28,23 @@ class MvvmPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
     return Provider<MvvmViewModel>(
       create: (ctx) => MvvmViewModelImpl(),
       dispose: (_, vm) => vm.dispose(),
-      child: isLandscape
-          ? _buildBody(context)
-          : Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  'Mvvm',
-                ),
-              ),
-              body: _buildBody(context),
-            ),
+      child: OrientationBuilder(
+        builder: (ctx, orientation) {
+          return orientation == Orientation.landscape
+              ? _buildBody(context)
+              : Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      'Mvvm',
+                    ),
+                  ),
+                  body: _buildBody(context),
+                );
+        },
+      ),
     );
   }
 }

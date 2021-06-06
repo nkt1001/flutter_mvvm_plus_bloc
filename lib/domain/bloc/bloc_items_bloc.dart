@@ -5,13 +5,13 @@ import 'package:mvvm_plus_bloc_flutter_app/domain/bloc/models/bloc_state.dart';
 import 'package:mvvm_plus_bloc_flutter_app/domain/entities/bloc_item.dart';
 import 'package:mvvm_plus_bloc_flutter_app/domain/repository/bloc_repository.dart';
 
-abstract class BlocItemsBloc extends BaseBloc<BlocItemsEvent, BlocState<List<BlocItem>>> {
+abstract class BlocItemsBloc extends BaseBloc<BaseBlocEvent, BlocState<List<BlocItem>>> {
 
   @protected
   final BlocRepository blocRepository;
 
   BlocItemsBloc(BlocState state, this.blocRepository) : super(state);
 
-  Stream<BlocState<List<BlocItem>>> getBlocItems();
+  Stream<BlocState<List<BlocItem>>> getBlocItems(BaseBlocEvent event);
 }
 
