@@ -1,0 +1,4 @@
+enum BaseBlocEvent {
+  init,
+  dispose,
+}

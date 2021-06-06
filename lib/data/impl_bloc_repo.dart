@@ -1,4 +1,4 @@
-import 'package:mvvm_plus_bloc_flutter_app/domain/models/bloc_item.dart';
+import 'package:mvvm_plus_bloc_flutter_app/domain/entities/bloc_item.dart';
 import 'package:mvvm_plus_bloc_flutter_app/domain/repository/bloc_repository.dart';
 
 class BlocRepositoryImpl extends BlocRepository {

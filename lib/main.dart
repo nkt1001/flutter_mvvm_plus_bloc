@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm_plus_bloc_flutter_app/domain/entities/opened_page.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/bloc/views/pages/bloc_page.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/views/pages/mvvm_page.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/start/start_page.dart';
-
-import 'domain/enums/opened_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,7 +29,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _navigatorKey = GlobalKey<NavigatorState>();
   var openedPageState = OpenedPage.None;
-  var isPortrait = false;
 
   void _onPageOpened(OpenedPage page) {
     setState(() {
@@ -38,31 +36,34 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  bool _isPortrait(Orientation orientation) => orientation == Orientation.portrait;
+
   @override
   Widget build(BuildContext context) {
-    isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
     return WillPopScope(
       onWillPop: () async => !await _navigatorKey.currentState.maybePop(),
-      child: Navigator(
-        key: _navigatorKey,
-        pages: [
-          MaterialPage(
-            child: StartPage(
-              selectedPage: openedPageState,
-              onPageSelected: (page) => _onPageOpened(page),
-              isPortrait: isPortrait,
+      child: OrientationBuilder(
+        builder: (ctx, orientation) => Navigator(
+          key: _navigatorKey,
+          pages: [
+            MaterialPage(
+              child: StartPage(
+                selectedPage: openedPageState,
+                onPageSelected: (page) => _onPageOpened(page),
+                isPortrait: _isPortrait(orientation),
+              ),
             ),
-          ),
-          if (isPortrait && openedPageState == OpenedPage.Mvvm)
-            MaterialPage(child: MvvmPage()),
-          if (isPortrait && openedPageState == OpenedPage.Bloc)
-            MaterialPage(child: BlocPage()),
-        ],
-        onPopPage: (route, result) {
-          openedPageState = OpenedPage.None;
-          return route.didPop(result);
-        },
+            if (_isPortrait(orientation) && openedPageState == OpenedPage.Mvvm)
+              MaterialPage(child: MvvmPage()),
+            if (_isPortrait(orientation) && openedPageState == OpenedPage.Bloc)
+              MaterialPage(child: BlocPage()),
+          ],
+          onPopPage: (route, result) {
+            openedPageState = OpenedPage.None;
+            return route.didPop(result);
+          },
+        ),
       ),
     );
   }

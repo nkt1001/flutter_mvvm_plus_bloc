@@ -1,4 +1,4 @@
-import 'package:mvvm_plus_bloc_flutter_app/domain/models/mvvm_item.dart';
+import 'package:mvvm_plus_bloc_flutter_app/domain/entities/mvvm_item.dart';
 
 abstract class MvvmRepository {
   Future<List<MvvmItem>> getMvvmList();

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mvvm_plus_bloc_flutter_app/domain/enums/opened_page.dart';
+import 'package:mvvm_plus_bloc_flutter_app/domain/entities/opened_page.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/bloc/views/pages/bloc_page.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/views/pages/mvvm_page.dart';
 
