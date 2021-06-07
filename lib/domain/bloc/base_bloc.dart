@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:mvvm_plus_bloc_flutter_app/domain/bloc/models/bloc_events.dart';
 import 'package:mvvm_plus_bloc_flutter_app/domain/bloc/models/bloc_state.dart';
 

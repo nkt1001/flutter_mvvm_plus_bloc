@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:mvvm_plus_bloc_flutter_app/domain/mvvm/models/result.dart';
 
 abstract class BaseViewModel<T> {
@@ -13,7 +12,6 @@ abstract class BaseViewModel<T> {
   get currentState => _currentState;
   get currentData => _currentState.data;
 
-  @protected
   set currentState(Result<T> value) {
     _currentState = value;
     if(isDisposed) {
@@ -22,8 +20,6 @@ abstract class BaseViewModel<T> {
     _dataStreamController.add(value);
   }
 
-
-  @mustCallSuper
   void dispose() {
     isDisposed = true;
     _dataStreamController.close();

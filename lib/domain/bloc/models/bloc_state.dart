@@ -1,5 +1,3 @@
-import 'package:mvvm_plus_bloc_flutter_app/domain/entities/bloc_item.dart';
-
 abstract class BlocState<T> {
   final T data;
 
