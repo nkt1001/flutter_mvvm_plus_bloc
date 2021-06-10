@@ -32,7 +32,12 @@ void main() {
     test('Checking response', () async {
       expect(
         bloc.state,
-        emitsInOrder([loading, success]),
+        emitsInOrder([
+          loading,
+          predicate<Success<List<BlocItem>>>((item) {
+            return item.data.isNotEmpty;
+          }),
+        ]),
       );
       bloc.emitEvent(BaseBlocEvent.init);
     });
