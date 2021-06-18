@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm_plus_bloc_flutter_app/domain/entities/opened_page.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/bloc/views/pages/bloc_page.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/views/pages/mvvm_page.dart';
 import 'package:mvvm_plus_bloc_flutter_app/presentation/start/start_page.dart';
@@ -21,49 +20,29 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePage extends StatelessWidget {
+  static const route = '/home';
   final _navigatorKey = GlobalKey<NavigatorState>();
-  var openedPageState = OpenedPage.None;
-
-  void _onPageOpened(OpenedPage page) {
-    setState(() {
-      openedPageState = page;
-    });
-  }
-
-  bool _isPortrait(Orientation orientation) => orientation == Orientation.portrait;
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () async => !await _navigatorKey.currentState.maybePop(),
-      child: OrientationBuilder(
-        builder: (ctx, orientation) => Navigator(
-          key: _navigatorKey,
-          pages: [
-            MaterialPage(
-              child: StartPage(
-                selectedPage: openedPageState,
-                onPageSelected: (page) => _onPageOpened(page),
-                isPortrait: _isPortrait(orientation),
-              ),
-            ),
-            if (_isPortrait(orientation) && openedPageState == OpenedPage.Mvvm)
-              MaterialPage(child: MvvmPage()),
-            if (_isPortrait(orientation) && openedPageState == OpenedPage.Bloc)
-              MaterialPage(child: BlocPage()),
-          ],
-          onPopPage: (route, result) {
-            openedPageState = OpenedPage.None;
-            return route.didPop(result);
-          },
-        ),
+      child: Navigator(
+        key: _navigatorKey,
+        initialRoute: MyHomePage.route,
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case MyHomePage.route:
+              return MaterialPageRoute(builder: (ctx) => StartPage());
+            case MvvmPage.route:
+              return MaterialPageRoute(builder: (ctx) => MvvmPage());
+            case BlocPage.route:
+              return MaterialPageRoute(builder: (ctx) => BlocPage());
+            default:
+              return null;
+          }
+        },
       ),
     );
   }

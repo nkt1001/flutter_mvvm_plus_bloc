@@ -4,26 +4,20 @@ import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/view_models/mvvm_vi
 import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/views/widgets/mvvm_list.dart';
 import 'package:provider/provider.dart';
 
-class MvvmPage extends StatelessWidget {
-  Widget _buildBody(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'This is MVVM list',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline6,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          MvvmList(),
-        ],
-      ),
-    );
+class MvvmPage extends StatefulWidget {
+  static const route = '/mvvm';
+
+  @override
+  _MvvmPageState createState() => _MvvmPageState();
+}
+
+class _MvvmPageState extends State<MvvmPage> {
+  bool detailsOpened = false;
+
+  @override
+  void initState() {
+    super.initState();
+    detailsOpened = false;
   }
 
   @override
@@ -33,17 +27,48 @@ class MvvmPage extends StatelessWidget {
       dispose: (_, vm) => vm.dispose(),
       child: OrientationBuilder(
         builder: (ctx, orientation) {
-          return orientation == Orientation.landscape
-              ? _buildBody(context)
-              : Scaffold(
-                  appBar: AppBar(
-                    title: Text(
-                      'Mvvm',
-                    ),
-                  ),
-                  body: _buildBody(context),
-                );
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Mvvm',
+              ),
+            ),
+            body: _buildBody(context, orientation == Orientation.landscape),
+          );
         },
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, bool isLandscape) {
+    return SafeArea(
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'This is MVVM list',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                MvvmList(),
+              ],
+            ),
+            flex: 1,
+          ),
+          if (isLandscape && detailsOpened)
+            Expanded(
+              child: Container(),
+              flex: 2,
+            ),
+        ],
       ),
     );
   }

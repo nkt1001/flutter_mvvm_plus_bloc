@@ -1,56 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mvvm_plus_bloc_flutter_app/domain/entities/opened_page.dart';
-import 'package:mvvm_plus_bloc_flutter_app/presentation/bloc/views/pages/bloc_page.dart';
-import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/views/pages/mvvm_page.dart';
 
 class StartPage extends StatelessWidget {
-  final OpenedPage selectedPage;
-  final ValueChanged onPageSelected;
-  final bool isPortrait;
 
-  const StartPage({
-    Key key,
-    @required this.selectedPage,
-    @required this.isPortrait,
-    @required this.onPageSelected,
-  }) : super(key: key);
+  static const route = 'startPage';
+
+  const StartPage({Key key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Hello World!'),
       ),
-      body: isPortrait
-          ? StartButtonsList(onPageSelected)
-          : Row(
-              children: [
-                Expanded(
-                  child: StartButtonsList(onPageSelected),
-                  flex: 1,
-                ),
-                if (selectedPage == OpenedPage.Bloc)
-                  Expanded(
-                    child: BlocPage(),
-                    flex: 2,
-                  ),
-                if (selectedPage == OpenedPage.Mvvm)
-                  Expanded(
-                    child: MvvmPage(),
-                    flex: 2,
-                  ),
-              ],
-            ),
+      body: StartButtonsList(),
     );
   }
 }
 
 class StartButtonsList extends StatelessWidget {
-  final ValueChanged onOpenPageClicked;
 
-  const StartButtonsList(this.onOpenPageClicked);
+  const StartButtonsList();
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +31,11 @@ class StartButtonsList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(
-            onPressed: () => onOpenPageClicked(OpenedPage.Mvvm),
+            onPressed: () {},
             child: Text('Mvvm Screen'),
           ),
           ElevatedButton(
-            onPressed: () => onOpenPageClicked(OpenedPage.Bloc),
+            onPressed: () {},
             child: Text('BLoC Screen'),
           ),
         ],
