@@ -7,16 +7,23 @@ import 'package:mvvm_plus_bloc_flutter_app/presentation/common/widgets/app_list_
 import 'package:provider/provider.dart';
 
 class BlocList extends StatelessWidget {
+  const BlocList({
+    Key? key,
+    required this.onItemTapped,
+  }) : super(key: key);
+  final Function onItemTapped;
+
   Widget _buildBlocList(List<BlocItem> data) {
     return data.isEmpty
         ? Text('Sorry, no items now. Try again later.')
         : ListView.builder(
-      itemBuilder: (ctx, i) => AppListItem(
-        key: ValueKey(data[i].title),
-        title: data[i].title,
-      ),
-      itemCount: data.length,
-    );
+            itemBuilder: (ctx, i) => AppListItem(
+              key: ValueKey(data[i].title),
+              title: data[i].title,
+              onTap: onItemTapped,
+            ),
+            itemCount: data.length,
+          );
   }
 
   @override
@@ -33,7 +40,7 @@ class BlocList extends StatelessWidget {
                 if (state.data is Loading || state.data is Idle) {
                   return CircularProgressIndicator();
                 } else {
-                  return _buildBlocList(state.data.data);
+                  return _buildBlocList(state.data?.data ?? []);
                 }
               }),
         ),

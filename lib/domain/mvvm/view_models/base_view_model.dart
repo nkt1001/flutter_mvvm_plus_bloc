@@ -5,14 +5,14 @@ import 'package:mvvm_plus_bloc_flutter_app/domain/mvvm/models/result.dart';
 abstract class BaseViewModel<T> {
 
   bool isDisposed = false;
-  final _dataStreamController = StreamController<Result<T>>.broadcast();
-  Stream<Result<T>> get dataStream => _dataStreamController.stream;
-  Result<T> _currentState;
+  final _dataStreamController = StreamController<Result<T?>>.broadcast();
+  Stream<Result<T?>> get dataStream => _dataStreamController.stream;
+  Result<T?> _currentState = Result.idle(null);
 
-  get currentState => _currentState;
-  get currentData => _currentState.data;
+  Result<T?> get currentState => _currentState;
+  T? get currentData => _currentState.data;
 
-  set currentState(Result<T> value) {
+  set currentState(Result<T?> value) {
     _currentState = value;
     if(isDisposed) {
       return;

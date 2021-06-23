@@ -3,7 +3,7 @@ import 'package:mvvm_plus_bloc_flutter_app/data/commons/repository_provider.dart
 import 'package:mvvm_plus_bloc_flutter_app/domain/repository/bloc_repository.dart';
 
 void main() {
-  BlocRepository repository;
+  late BlocRepository repository;
 
   setUp(() {
     repository = provideBlocRepository();

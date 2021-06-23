@@ -9,7 +9,7 @@ const loading = TypeMatcher<Loading>();
 const success = TypeMatcher<Success>();
 
 void main() {
-  MvvmViewModel viewModel;
+  late MvvmViewModel viewModel;
 
   group('main group', () {
     setUp(() {

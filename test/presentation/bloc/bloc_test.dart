@@ -10,7 +10,7 @@ const loading = TypeMatcher<Loading>();
 const success = TypeMatcher<Success>();
 
 void main() {
-  BlocItemsBloc bloc;
+  late BlocItemsBloc bloc;
 
   group('main group', () {
     setUp(() {

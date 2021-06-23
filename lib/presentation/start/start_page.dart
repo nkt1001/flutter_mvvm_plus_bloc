@@ -1,11 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mvvm_plus_bloc_flutter_app/presentation/bloc/views/pages/bloc_page.dart';
+import 'package:mvvm_plus_bloc_flutter_app/presentation/common/widgets/nested_navigator.dart';
+import 'package:mvvm_plus_bloc_flutter_app/presentation/mvvm/views/pages/mvvm_page.dart';
 
 class StartPage extends StatelessWidget {
+  static const route = '/';
 
-  static const route = 'startPage';
-
-  const StartPage({Key key,}) : super(key: key);
+  const StartPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,6 @@ class StartPage extends StatelessWidget {
 }
 
 class StartButtonsList extends StatelessWidget {
-
   const StartButtonsList();
 
   @override
@@ -31,15 +34,25 @@ class StartButtonsList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () => onStartButtonClicked(context, true),
             child: Text('Mvvm Screen'),
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () => onStartButtonClicked(context, false),
             child: Text('BLoC Screen'),
           ),
         ],
       ),
     );
+  }
+
+  void onStartButtonClicked(BuildContext context, bool mvvm) {
+    final name;
+    if (mvvm) {
+      name = MvvmPage.route;
+    } else {
+      name = BlocPage.route;
+    }
+    Navigator.of(context).pushNamed(name);
   }
 }

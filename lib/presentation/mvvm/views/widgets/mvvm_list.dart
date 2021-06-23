@@ -6,15 +6,24 @@ import 'package:mvvm_plus_bloc_flutter_app/presentation/common/widgets/app_list_
 import 'package:provider/provider.dart';
 
 class MvvmList extends StatelessWidget {
+  final Function onItemTapped;
+
+  const MvvmList({
+    Key? key,
+    required this.onItemTapped,
+  }) : super(key: key);
+
   Widget _buildDataList(MvvmViewModel viewModel) {
-    return viewModel.currentData.isEmpty
+    final data = viewModel.currentData ?? [];
+    return data.isEmpty
         ? Text('Sorry, no items now. Try again later.')
         : ListView.builder(
             itemBuilder: (ctx, i) => AppListItem(
-              key: ValueKey(viewModel.currentData[i].title),
-              title: viewModel.currentData[i].title,
+              key: ValueKey(data[i].title),
+              title: data[i].title,
+              onTap: onItemTapped,
             ),
-            itemCount: viewModel.currentData.length,
+            itemCount: data.length,
           );
   }
 
@@ -22,10 +31,12 @@ class MvvmList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MvvmViewModel>(
       builder: (ctx, vm, child) {
-        vm.loadMvvmItems();
+        if(vm.currentState is Idle) {
+          vm.loadMvvmItems();
+        }
         return Expanded(
           child: Center(
-            child: StreamBuilder<Result<List<MvvmItem>>>(
+            child: StreamBuilder<Result<List<MvvmItem>?>>(
               stream: vm.dataStream,
               initialData: vm.currentState,
               builder: (ctx, snapshot) {

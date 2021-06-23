@@ -11,8 +11,8 @@ abstract class BaseBloc<E extends BaseBlocEvent, S extends BlocState> {
   Stream<S> get state => _stateController.stream;
 
   final S initialState;
-  StreamSubscription<E> _eventsSubscription;
-  S currentState;
+  late StreamSubscription<E> _eventsSubscription;
+  late S currentState;
 
   BaseBloc(
     this.initialState,

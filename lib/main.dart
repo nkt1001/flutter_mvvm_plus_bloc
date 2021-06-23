@@ -8,6 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,35 +16,24 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
-    );
-  }
-}
+      onGenerateRoute: (settings) {
+        print('onGenerateRoute ${settings.name}');
+        late Widget widget;
+        if(settings.name == StartPage.route) {
+          widget = StartPage();
+        } else if(settings.name == MvvmPage.route) {
+          widget = MvvmPage();
+        } else if(settings.name == BlocPage.route) {
+          widget = BlocPage();
+        } else {
+          throw Exception('Unknown route ${settings.name}');
+        }
 
-class MyHomePage extends StatelessWidget {
-  static const route = '/home';
-  final _navigatorKey = GlobalKey<NavigatorState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => !await _navigatorKey.currentState.maybePop(),
-      child: Navigator(
-        key: _navigatorKey,
-        initialRoute: MyHomePage.route,
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case MyHomePage.route:
-              return MaterialPageRoute(builder: (ctx) => StartPage());
-            case MvvmPage.route:
-              return MaterialPageRoute(builder: (ctx) => MvvmPage());
-            case BlocPage.route:
-              return MaterialPageRoute(builder: (ctx) => BlocPage());
-            default:
-              return null;
-          }
-        },
-      ),
+        return MaterialPageRoute(
+          builder: (ctx) => widget,
+          settings: settings,
+        );
+      } ,
     );
   }
 }
